@@ -14,8 +14,6 @@ pico_sdk_init()
 
 # include(example_auto_set_url.cmake)
 
-add_subdirectory(RadioLib)
-
 add_executable(${PROJECT_NAME}
   main.cpp
 )
@@ -25,9 +23,9 @@ target_link_libraries(${PROJECT_NAME}
   hardware_spi
 )
 
-pico_enable_stdio_usb(radio_test 1)
-pico_enable_stdio_uart(radio_test 0)
+pico_enable_stdio_usb(${PROJECT_NAME} 1)
+pico_enable_stdio_uart(${PROJECT_NAME} 0)
 
-pico_add_extra_outputs(radio_test)
+pico_add_extra_outputs(${PROJECT_NAME})
 
 # example_auto_set_url(radio_test)

@@ -78,6 +78,7 @@ if args_contain "rp2350-riscv" "$@"; then
       mkdir -p build_2350_riscv
 
       cmake -S . -B build_2350_riscv \
+            -DPICO_TOOLCHAIN_PATH=/opt/riscv/riscv-toolchain-15 \
             -DPICO_PLATFORM=rp2350-riscv \
             -DPICO_BOARD=pico2 \
             -DSRAM_TO_USE_B=$RP2350_SRAM_TO_USE_B \

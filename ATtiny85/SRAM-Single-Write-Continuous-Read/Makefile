@@ -27,3 +27,6 @@ clean:
 	rm ${OBJS}
 	rmm main.elf
 	rm $(TARGET).hex
+
+format: 
+	clang-format -i -style=Google ${SRCS}

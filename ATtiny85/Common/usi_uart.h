@@ -7,7 +7,13 @@
 
 #include <stdint.h>
 
-uint8_t USI_UART_Initialize_Transmitter(); 
-uint8_t USI_UART_Transmit_Byte(uint8_t data);
+void usiserial_send_byte(uint8_t data);
+void usiserial_send_bytes(uint8_t* data, uint8_t len); 
+
+uint8_t usiserial_send_string(char* str); 
+
+#define USISERIAL_PRINTF_BUF_SIZE 256
+
+int usiserial_printf(const char* fmt, ...); 
 
 #endif 

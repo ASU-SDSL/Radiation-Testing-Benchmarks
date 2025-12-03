@@ -1,5 +1,24 @@
 #!/bin/bash
 
+function print_separator {
+      WIDTH=$(tput cols)
+      CHAR='-'
+      LINE=$(printf '%*s' "${WIDTH}" '' | tr ' ' "${CHAR}")
+      echo -e "\n$LINE\n"
+}
+
+function args_contain() {
+      local target="$1"
+
+      shift # discard local arg 
+
+      if [[ "$#" -eq 0 || "$*" =~ "all" || "$*" =~ "$target" ]]; then 
+            return 0
+      else 
+            return 1
+      fi
+}
+
 RP2040_SRAM_TO_USE_B=$((200*1000))
 RP2350_SRAM_TO_USE_B=$((400*1000)) 
 
@@ -18,8 +37,7 @@ OLD_PICO_SDK_PATH="$PICO_SDK_PATH"
 export PICO_SDK_PATH="$(pwd)/../pico-sdk"
 
 # determine what to build based on args
-
-if [[ "$#" -eq 0 || $* =~ "all" || $* =~ "rp2040" ]]; then 
+if args_contain "rp2040" "$@"; then 
       # build for RP2040
       mkdir -p build_2040
 
@@ -32,15 +50,12 @@ if [[ "$#" -eq 0 || $* =~ "all" || $* =~ "rp2040" ]]; then
 
       mkdir -p _uf2
       cp build_2040/*.uf2 _uf2/sram_single_write_continuous_read_rp2040.uf2
-      echo -e "Built for RP2040\n\n"
+      echo -e "Built for RP2040"
 
-      WIDTH=$(tput cols)
-      CHAR='-'
-      LINE=$(printf '%*s' "${WIDTH}" '' | tr ' ' "${CHAR}")
-      echo "$LINE"
+      print_separator
 fi
 
-if [[ "$#" -eq 0 || $* =~ "all" || $* =~ "rp2350-arm" ]]; then 
+if args_contain "rp2350-arm" "$@"; then 
       # build for RP2350 (ARM)
       mkdir -p build_2350_arm
 
@@ -55,14 +70,11 @@ if [[ "$#" -eq 0 || $* =~ "all" || $* =~ "rp2350-arm" ]]; then
       cp build_2350_arm/*.uf2 _uf2/sram_single_write_continuous_read_rp2350_arm.uf2
       echo "Built for RP2350 (ARM cores)"
 
-      WIDTH=$(tput cols)
-      CHAR='-'
-      LINE=$(printf '%*s' "${WIDTH}" '' | tr ' ' "${CHAR}")
-      echo "$LINE"
+      print_separator
 fi
 
-if [[ "$#" -eq 0 || $* =~ "all" || $* =~ "rp2350-riscv" ]]; then 
-      # build for RP2350 (ARM)
+if args_contain "rp2350-riscv" "$@"; then 
+      # build for RP2350 (RISC-V)
       mkdir -p build_2350_riscv
 
       cmake -S . -B build_2350_riscv \
@@ -76,25 +88,8 @@ if [[ "$#" -eq 0 || $* =~ "all" || $* =~ "rp2350-riscv" ]]; then
       cp build_2350_riscv/*.uf2 _uf2/sram_single_write_continuous_read_rp2350_riscv.uf2
       echo "Built for RP2350 (RISC-V cores)"
 
-      WIDTH=$(tput cols)
-      CHAR='-'
-      LINE=$(printf '%*s' "${WIDTH}" '' | tr ' ' "${CHAR}")
-      echo "$LINE"
+      print_separator
 fi
-
-# # build for RP2350 (RISC-V)
-# mkdir -p build_2350_riscv
-# cd build_2350_riscv; 
-# cmake -DPICO_SDK_PATH=$(pwd)/../../pico-sdk \
-#       -DCMAKE_CXX_FLAGS="-DSRAM_TO_USE_B=$RP2040_SRAM_TO_USE_B" \
-#       -DPICO_PLATFORM=rp2350-riscv \
-#       -DPICO_BOARD=pico2 \
-#       ..;
-# make;
-
-# cp *.uf2 ../_uf2/sram_single_write_continuous_read_rp2350_riscv.uf2
-# echo "Built for RP2350 (RISC-V cores)"
-# cd ..;
 
 # restore old PICO_SDK_PATH
 if [ -n "$OLD_PICO_SDK_PATH" ]; then
@@ -104,13 +99,13 @@ else
 fi
 
 # print final message and info 
-echo "Finished build scripts for: "
-if [[ "$#" -eq 0 || $* =~ "all" || $* =~ "rp2040" ]]; then 
+echo "Finished running build scripts for: "
+if args_contain "rp2040" "$@"; then 
     echo "- RP2040"
 fi
-if [[ "$#" -eq 0 || $* =~ "all" || $* =~ "rp2350-arm" ]]; then 
+if args_contain "rp2350-arm" "$@"; then 
     echo "- RP2350 (ARM cores)"
 fi
-if [[ "$#" -eq 0 || $* =~ "all" || $* =~ "rp2350-riscv" ]]; then 
+if args_contain "rp2350-riscv" "$@"; then 
     echo "- RP2350 (RISC-V cores)"
 fi

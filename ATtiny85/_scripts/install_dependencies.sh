@@ -1,4 +1,4 @@
 #!/bin/bash
 
-sudo apt install avr-gcc binutils-avr avr-libc avrdude
+sudo apt install gcc-avr binutils-avr avr-libc avrdude
 

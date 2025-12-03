@@ -1,3 +1,7 @@
+/**
+ * UART Transmit Functions using Universal Serial Interface (USI)
+ * Based on ATMEL AVR307 (https://ww1.microchip.com/downloads/en/AppNotes/doc4300.pdf)
+ */
 #ifndef USI_UART_H
 #define USI_UART_H
 

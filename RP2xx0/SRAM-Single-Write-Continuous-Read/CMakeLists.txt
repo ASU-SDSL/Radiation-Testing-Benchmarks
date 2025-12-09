@@ -16,6 +16,7 @@ endif()
 #init sdk
 pico_sdk_init() 
 
+
 # include(example_auto_set_url.cmake)
 
 add_executable(${PROJECT_NAME}
@@ -33,8 +34,11 @@ if(DEFINED SRAM_TO_USE_B)
   target_compile_definitions(${PROJECT_NAME} PRIVATE SRAM_TO_USE_B=${SRAM_TO_USE_B})
 endif()
 
+pico_set_binary_type(${PROJECT_NAME} no_flash) 
+
+
 pico_enable_stdio_usb(${PROJECT_NAME} 1)
-pico_enable_stdio_uart(${PROJECT_NAME} 0)
+pico_enable_stdio_uart(${PROJECT_NAME} 1)
 
 pico_add_extra_outputs(${PROJECT_NAME})
 

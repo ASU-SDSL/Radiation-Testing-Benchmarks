@@ -3,6 +3,8 @@
 
 #include <cstdlib>
 
+#include "tusb.h"
+
 #define PICO_MALLOC_PANIC 0
 
 #include "pico/stdlib.h"
@@ -13,11 +15,15 @@
 #endif
 
 // pattern defined as so to have it reread from flash each time
-#define PATTERN \
-  "\x00\x11\x22\x33\x44\x55\x66\x77\x88\x99\xAA\xBB\xCC\xDD\xEE\xFF"
+#define PATTERN "1234567890abcdefghijklmnopqrstuv"
+#define CHUNK_SIZE 64  // max for the pico sdk usb buffer
 
 int main() {
   stdio_init_all();
+
+  sleep_ms(10000);  // wait 10s
+
+  printf("Starting Test\n\n");
 
   // create memory
   // on the RP2xx0 the SRAM is striped across blocks, but really we don't care
@@ -28,17 +34,22 @@ int main() {
 
   // write pattern
   for (size_t i = 0; i < SRAM_TO_USE_B; i++) {
-    data[i] = PATTERN[i % sizeof(PATTERN)];
+    data[i] = PATTERN[i % (sizeof(PATTERN) - 1)];  // -1 to avoid the \0
   }
 
-  // read and report every 1s
+  printf("Data written\n");
+
+  // read and report
   while (1) {
     uint32_t timestamp = to_ms_since_boot(get_absolute_time());
-    printf("Reading at %lu:\n", timestamp);
-    for (size_t i = 0; i < SRAM_TO_USE_B; i++) {
-      printf("%x", data[i]);
+    printf("\n[INFO] Reading at %lu:\n", timestamp);
+    // transferring at max CHUNK_SIZE for pico's buffer for better speed 
+    for (size_t i = 0; i < SRAM_TO_USE_B; i += CHUNK_SIZE) {
+      tud_cdc_write((void*)&(data[i]), CHUNK_SIZE);
+      tud_cdc_write_flush();
     }
-    printf("\nDone (started: %lu).", timestamp);
+    printf("\n[INFO] Done (started: %lu).\n", timestamp);
+    sleep_ms(5000);  // wait 5s between reads
   }
 
   return 0;

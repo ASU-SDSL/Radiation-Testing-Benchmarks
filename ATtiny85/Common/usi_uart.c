@@ -118,7 +118,6 @@ void usiserial_send_volatile_bytes(volatile uint8_t* data, uint8_t len) {
   }
 }
 
-
 uint8_t usiserial_send_string(char* str) {
   uint8_t len = strnlen(str, 255);  // capped at 255 for some safety
   for (uint8_t i = 0; i < len; i++) {

@@ -18,7 +18,7 @@ void init_timing() {
 
   // setup timer
   TCNT1 = TIMER_RESET_VALUE_ONE_S;
-  TCCR1 = _BV(CS13) | _BV(CS12) || _BV(CS11);  // prescaler of 8192
+  TCCR1 = _BV(CS13) | _BV(CS12) | _BV(CS11);  // prescaler of 8192
   TIMSK |= _BV(TOIE1);
 
   sei();

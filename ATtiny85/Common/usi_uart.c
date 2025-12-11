@@ -74,11 +74,50 @@ void usiserial_send_byte(uint8_t data) {
   USISR = 1 << USIOIF | (16 - 8);
 }
 
+void usiserial_send_volatile_byte(volatile uint8_t data) {
+  while (usiserial_send_state != AVAILABLE);  // wait
+
+  usiserial_send_state = FIRST;
+  usiserial_tx_data = reverse_byte(data);
+
+  // configure timer 0 to
+  // clear timer on Compare match
+  // set WGM0, flag to 010
+  TCCR0A = 2 << WGM00;
+  TCCR0B = _BV(CS00);
+
+  // reset prescaler
+  GTCCR |= 1 << PSR0;
+  // set counter to 0
+  TCNT0 = 0;
+
+  OCR0A = FULL_BIT_TICKS;  // trigger for each bit
+
+  // USI set up
+  USICR = (0 << USIWM1) |
+          (1 << USIWM0) |  // Select three wire mode so USI output on PB1
+          (1 << USIOIE) |  // Enable USI Counter OVF interrupt.
+          (0 << USICS1) | (1 << USICS0) |
+          (0 << USICLK);  // Timer0 Compare Match as USI clock source
+  DDRB |= (1 << PB1);     // Configure USI DO, PB1 as output
+
+  USIDR = 0x00 | usiserial_tx_data >> 1;
+
+  USISR = 1 << USIOIF | (16 - 8);
+}
+
 void usiserial_send_bytes(uint8_t* data, uint8_t len) {
   for (uint8_t i = 0; i < len; i++) {
     usiserial_send_byte(data[i]);  // spins internally
   }
 }
+
+void usiserial_send_volatile_bytes(volatile uint8_t* data, uint8_t len) {
+  for (uint8_t i = 0; i < len; i++) {
+    usiserial_send_volatile_byte(data[i]);  // spins internally
+  }
+}
+
 
 uint8_t usiserial_send_string(char* str) {
   uint8_t len = strnlen(str, 255);  // capped at 255 for some safety

@@ -10,6 +10,9 @@
 void usiserial_send_byte(uint8_t data);
 void usiserial_send_bytes(uint8_t* data, uint8_t len); 
 
+void usiserial_send_volatile_byte(volatile uint8_t data);
+void usiserial_send_volatile_bytes(volatile uint8_t* data, uint8_t len); 
+
 uint8_t usiserial_send_string(char* str); 
 
 #define USISERIAL_PRINTF_BUF_SIZE 256

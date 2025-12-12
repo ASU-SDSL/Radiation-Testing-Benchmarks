@@ -27,7 +27,9 @@ target_link_libraries(${PROJECT_NAME}
   pico_stdlib
 )
 
-pico_set_binary_type(${PROJECT_NAME} no_flash) 
+# passive power should be on flash - it doesn't really matter if it gets corrupted 
+# but something should be there to run 
+# pico_set_binary_type(${PROJECT_NAME} no_flash) 
 
 pico_enable_stdio_usb(${PROJECT_NAME} 1)
 pico_enable_stdio_uart(${PROJECT_NAME} 1)

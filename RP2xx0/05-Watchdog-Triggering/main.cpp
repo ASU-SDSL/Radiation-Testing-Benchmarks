@@ -59,7 +59,7 @@ int main() {
       printf("Watchdog freeze\n");
     }
 
-    sleep_ms(100);
+    sleep_ms(500);
     it++;
   }
 

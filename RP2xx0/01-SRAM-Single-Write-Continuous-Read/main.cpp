@@ -1,3 +1,13 @@
+/**
+ * @file main.cpp
+ * @author Tyler Nielsen (you@domain.com)
+ * @brief Writes a pattern to a large section of SRAM and then continuously read
+ * from it and reports it over USB after a roughly defined interval - runs other
+ * smaller tests during that period
+ * @version 0.1
+ * @date 2025-12-13
+ *
+ */
 #include <stdint.h>
 #include <stdio.h>
 

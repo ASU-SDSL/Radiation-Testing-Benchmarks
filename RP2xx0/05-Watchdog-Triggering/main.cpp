@@ -1,3 +1,13 @@
+/**
+ * @file main.cpp
+ * @author Tyler Nielsen
+ * @brief Triggers the watchdog after a set period of time.
+ * @version 0.1
+ * @date 2025-12-13
+ *
+ * @copyright Copyright (c) 2025
+ *
+ */
 #include <stdint.h>
 #include <stdio.h>
 
@@ -6,12 +16,25 @@
 
 #define WATCHDOG_TIMEOUT_US (5000 * 1000)  // 5 sec?
 
+#define BUILT_IN_LED_PIN 25
+
 int main() {
   stdio_init_all();
 
+  gpio_init(BUILT_IN_LED_PIN);
+  gpio_set_dir(BUILT_IN_LED_PIN, true);
+  gpio_put(BUILT_IN_LED_PIN, 0);  // start off
+
   if (watchdog_enable_caused_reboot()) {
     printf("Reboot caused by Watchdog\n\n");
-    sleep_ms(1000);
+    // 3 quick blinks ~1s total
+    for (int i = 0; i < 3; i++) {
+      gpio_put(BUILT_IN_LED_PIN, 1);
+      sleep_ms(150);
+      gpio_put(BUILT_IN_LED_PIN, 0);
+      sleep_ms(150);
+    }
+
   } else {
     printf("First boot\n");
     sleep_ms(10000);  // wait 10s
@@ -26,14 +49,17 @@ int main() {
   int it = 0;
   while (1) {
     printf("Iteration %d\n", it);
-    if (it < 6) {
+    if (it < 10) {
       watchdog_update();
+      // toggle built in LED based on it iteration counter
+      gpio_put(BUILT_IN_LED_PIN, it & 0x1);
     }
 
-    if (it == 6) {
+    if (it == 10) {
       printf("Watchdog freeze\n");
     }
 
+    sleep_ms(100);
     it++;
   }
 

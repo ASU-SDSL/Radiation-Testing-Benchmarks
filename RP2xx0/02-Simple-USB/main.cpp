@@ -1,3 +1,11 @@
+/**
+ * @file main.cpp
+ * @author Tyler Nielsen
+ * @brief Simple transmit over USB interface
+ * @version 0.1
+ * @date 2025-12-13
+ *
+ */
 #include <stdint.h>
 #include <stdio.h>
 

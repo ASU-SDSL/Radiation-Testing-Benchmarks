@@ -1,3 +1,12 @@
+/**
+ * @file main.cpp
+ * @author Tyler Nielsen
+ * @brief PIO block test, creates an addition machine and uses it with sample
+ * input.
+ * @version 0.1
+ * @date 2025-12-13
+ *
+ */
 #include <stdint.h>
 #include <stdio.h>
 

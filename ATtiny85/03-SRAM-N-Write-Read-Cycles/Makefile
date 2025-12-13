@@ -8,7 +8,7 @@ CLOCK = 1000000
 
 SRCS = main.c ../Common/usi_uart.c ../Common/timing.c
 OBJS = main.o usi_uart.o timing.o
-TARGET = sram_n_write_read_cycles
+TARGET = sram_n_write_read_cycles_attiny85
 
 all: build
 

@@ -12,7 +12,7 @@ TARGET = passive_no_operation_attiny85
 
 all: build
 
-build: 
+build: format
 	avr-gcc -Wall -Os -mmcu=$(DEVICE) -DF_CPU=$(CLOCK) -c $(SRCS)
 	avr-gcc -Wall -Os -mmcu=$(DEVICE) -DF_CPU=$(CLOCK) -o $(TARGET).elf $(OBJS)
 	avr-objcopy -O ihex -R .eeprom $(TARGET).elf $(TARGET).hex

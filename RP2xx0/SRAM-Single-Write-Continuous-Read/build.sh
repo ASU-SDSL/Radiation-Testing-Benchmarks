@@ -50,6 +50,10 @@ if args_contain "rp2040" "$@"; then
 
       mkdir -p _uf2
       cp build_2040/*.uf2 _uf2/sram_single_write_continuous_read_rp2040.uf2
+
+      mkdir -p _elf 
+      cp build_2040/*.elf _elf/sram_single_write_continuous_read_rp2040.elf
+
       echo -e "Built for RP2040"
 
       print_separator
@@ -68,6 +72,10 @@ if args_contain "rp2350-arm" "$@"; then
 
       mkdir -p _uf2
       cp build_2350_arm/*.uf2 _uf2/sram_single_write_continuous_read_rp2350_arm.uf2
+
+      mkdir -p _elf
+      cp build_2350_arm/*.elf _elf/sram_single_write_continuous_read_rp2350_arm.elf
+
       echo "Built for RP2350 (ARM cores)"
 
       print_separator
@@ -87,6 +95,10 @@ if args_contain "rp2350-riscv" "$@"; then
 
       mkdir -p _uf2
       cp build_2350_riscv/*.uf2 _uf2/sram_single_write_continuous_read_rp2350_riscv.uf2
+
+      mkdir -p _elf
+      cp build_2350_riscv/*.elf _elf/sram_single_write_continuous_read_rp2350_riscv.elf
+
       echo "Built for RP2350 (RISC-V cores)"
 
       print_separator

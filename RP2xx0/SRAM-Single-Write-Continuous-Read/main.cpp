@@ -43,7 +43,7 @@ int main() {
   while (1) {
     uint32_t timestamp = to_ms_since_boot(get_absolute_time());
     printf("\n[INFO] Reading at %lu:\n", timestamp);
-    // transferring at max CHUNK_SIZE for pico's buffer for better speed 
+    // transferring at max CHUNK_SIZE for pico's buffer for better speed
     for (size_t i = 0; i < SRAM_TO_USE_B; i += CHUNK_SIZE) {
       tud_cdc_write((void*)&(data[i]), CHUNK_SIZE);
       tud_cdc_write_flush();

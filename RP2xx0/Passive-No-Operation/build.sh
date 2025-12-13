@@ -45,7 +45,7 @@ if args_contain "rp2040" "$@"; then
       cmake --build build_2040 -- -j$(nproc);
 
       mkdir -p _uf2
-      cp build_2040/*.uf2 _uf2/sram_single_write_continuous_read_rp2040.uf2
+      cp build_2040/*.uf2 _uf2/passive_no_operation_rp2040.uf2
       echo -e "Built for RP2040"
 
       print_separator
@@ -62,7 +62,7 @@ if args_contain "rp2350-arm" "$@"; then
       cmake --build build_2350_arm -- -j$(nproc);
 
       mkdir -p _uf2
-      cp build_2350_arm/*.uf2 _uf2/sram_single_write_continuous_read_rp2350_arm.uf2
+      cp build_2350_arm/*.uf2 _uf2/passive_no_operation_rp2350_arm.uf2
       echo "Built for RP2350 (ARM cores)"
 
       print_separator
@@ -80,7 +80,7 @@ if args_contain "rp2350-riscv" "$@"; then
       cmake --build build_2350_riscv -- -j$(nproc);
 
       mkdir -p _uf2
-      cp build_2350_riscv/*.uf2 _uf2/sram_single_write_continuous_read_rp2350_riscv.uf2
+      cp build_2350_riscv/*.uf2 _uf2/passive_no_operation_rp2350_riscv.uf2
       echo "Built for RP2350 (RISC-V cores)"
 
       print_separator

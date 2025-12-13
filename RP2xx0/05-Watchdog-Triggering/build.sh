@@ -1,5 +1,5 @@
 #!/bin/bash
-BUILD_NAME_BASE="sram-n-write-read-cycles"
+BUILD_NAME_BASE="watchdog_triggering"
 
 function print_separator {
       WIDTH=$(tput cols)
@@ -19,10 +19,6 @@ function args_contain() {
             return 1
       fi
 }
-
-RP2040_SRAM_TO_USE_B=$((200*1000))
-RP2350_SRAM_TO_USE_B=$((400*1000)) 
-
 
 if [[ -n "$1" && "$1" == "--help" ]]; then
     echo "Usage: build.sh [all|rp2040|rp2350-arm|rp2350-riscv]"
@@ -46,7 +42,6 @@ if args_contain "rp2040" "$@"; then
       cmake -S . -B build_2040 \
             -DPICO_PLATFORM=rp2040 \
             -DPICO_BOARD=pico \
-            -DSRAM_TO_USE_B=$RP2040_SRAM_TO_USE_B \
             ;
       cmake --build build_2040 -- -j$(nproc);
 
@@ -68,7 +63,6 @@ if args_contain "rp2350-arm" "$@"; then
       cmake -S . -B build_2350_arm \
             -DPICO_PLATFORM=rp2350-arm-s \
             -DPICO_BOARD=pico2 \
-            -DSRAM_TO_USE_B=$RP2350_SRAM_TO_USE_B \
             ;
       cmake --build build_2350_arm -- -j$(nproc);
 
@@ -91,7 +85,6 @@ if args_contain "rp2350-riscv" "$@"; then
             -DPICO_TOOLCHAIN_PATH=$(pwd)/../_tools/riscv/riscv-toolchain-15 \
             -DPICO_PLATFORM=rp2350-riscv \
             -DPICO_BOARD=pico2 \
-            -DSRAM_TO_USE_B=$RP2350_SRAM_TO_USE_B \
             ;
       cmake --build build_2350_riscv -- -j$(nproc);
 

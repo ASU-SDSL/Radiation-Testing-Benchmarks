@@ -1,4 +1,5 @@
 #!/bin/bash
+BUILD_NAME_BASE="sram-single-write-continuous-read"
 
 function print_separator {
       WIDTH=$(tput cols)
@@ -49,10 +50,10 @@ if args_contain "rp2040" "$@"; then
       cmake --build build_2040 -- -j$(nproc);
 
       mkdir -p _uf2
-      cp build_2040/*.uf2 _uf2/sram_single_write_continuous_read_rp2040.uf2
+      cp build_2040/*.uf2 "_uf2/${BUILD_NAME_BASE}_rp2040.uf2"
 
       mkdir -p _elf 
-      cp build_2040/*.elf _elf/sram_single_write_continuous_read_rp2040.elf
+      cp build_2040/*.elf "_elf/${BUILD_NAME_BASE}_rp2040.elf"
 
       echo -e "Built for RP2040"
 
@@ -71,10 +72,10 @@ if args_contain "rp2350-arm" "$@"; then
       cmake --build build_2350_arm -- -j$(nproc);
 
       mkdir -p _uf2
-      cp build_2350_arm/*.uf2 _uf2/sram_single_write_continuous_read_rp2350_arm.uf2
+      cp build_2350_arm/*.uf2 "_uf2/${BUILD_NAME_BASE}_rp2350_arm.uf2"
 
       mkdir -p _elf
-      cp build_2350_arm/*.elf _elf/sram_single_write_continuous_read_rp2350_arm.elf
+      cp build_2350_arm/*.elf "_elf/${BUILD_NAME_BASE}_rp2350_arm.elf"
 
       echo "Built for RP2350 (ARM cores)"
 
@@ -94,10 +95,10 @@ if args_contain "rp2350-riscv" "$@"; then
       cmake --build build_2350_riscv -- -j$(nproc);
 
       mkdir -p _uf2
-      cp build_2350_riscv/*.uf2 _uf2/sram_single_write_continuous_read_rp2350_riscv.uf2
+      cp build_2350_riscv/*.uf2 "_uf2/${BUILD_NAME_BASE}_rp2350_riscv.uf2"
 
       mkdir -p _elf
-      cp build_2350_riscv/*.elf _elf/sram_single_write_continuous_read_rp2350_riscv.elf
+      cp build_2350_riscv/*.elf "_elf/${BUILD_NAME_BASE}_rp2350_riscv.elf"
 
       echo "Built for RP2350 (RISC-V cores)"
 
@@ -112,7 +113,7 @@ else
 fi
 
 # print final message and info 
-echo "Finished running build scripts for: "
+echo "Finished running build scripts for: ${BUILD_NAME_BASE}"
 if args_contain "rp2040" "$@"; then 
     echo "- RP2040"
 fi

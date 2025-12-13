@@ -1,3 +1,13 @@
+/**
+ * @file main.c
+ * @author Tyler Nielsen
+ * @brief Writes a pattern to a large section of SRAM and then continuously read
+ * from it and reports it over USI UART after a roughly defined interval,
+ * includes watchdog functionality
+ * @version 0.1
+ * @date 2025-12-13
+ *
+ */
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,6 +17,7 @@
 #endif
 
 #include <avr/io.h>
+#include <avr/wdt.h>
 #include <util/delay.h>
 
 #include "../Common/timing.h"
@@ -38,6 +49,9 @@ int main() {
   PORTB &= ~_BV(PB4);
   PINB |= _BV(PB4);  // toggle
 
+  // enable watchdog timer
+  wdt_enable(WDTO_8S);
+
   // read and report every 1s
   while (1) {
     uint32_t timestamp = secs();
@@ -45,6 +59,7 @@ int main() {
 
     for (size_t i = 0; i < SRAM_TO_USE_B; i++) {
       usiserial_send_volatile_byte(data[i]);
+      wdt_reset();
     }
 
     usiserial_printf("\nDone (started: %lu).", timestamp);

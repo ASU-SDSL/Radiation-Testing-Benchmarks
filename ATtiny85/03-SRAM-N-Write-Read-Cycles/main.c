@@ -1,3 +1,11 @@
+/**
+ * @file main.c
+ * @author Tyler Nielsen 
+ * @brief Writes and Reads from SRAM repeatedly 
+ * @version 0.1
+ * @date 2025-12-13
+ * 
+ */
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>

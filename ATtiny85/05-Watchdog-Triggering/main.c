@@ -1,3 +1,11 @@
+/**
+ * @file main.c
+ * @author Tyler Nielsen
+ * @brief Triggers the watchdog after a set period of time.
+ * @version 0.1
+ * @date 2025-12-13
+ *
+ */
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>

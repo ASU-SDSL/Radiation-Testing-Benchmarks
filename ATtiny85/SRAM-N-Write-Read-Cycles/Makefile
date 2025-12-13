@@ -23,6 +23,11 @@ build:
 flash: build
 	avrdude -c atmelice_isp -p $(DEVICE) -P usb -U flash:w:$(TARGET).hex:i
 
+read:
+	mkdir -p readbacks
+	avrdude -c atmelice_isp -p $(DEVICE) -P usb -U flash:r:$(TARGET)_readback.hex:i
+	mv $(TARGET)_readback.hex readbacks/$(TARGET)_$(NAME)_$$(date --iso=seconds).hex
+
 clean: 
 	rm ${OBJS}
 	rmm main.elf

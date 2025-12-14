@@ -25,6 +25,8 @@ int main() {
   gpio_set_dir(BUILT_IN_LED_PIN, true);
   gpio_put(BUILT_IN_LED_PIN, 0);  // start off
 
+  sleep_ms(10000);  // 10s
+
   if (watchdog_enable_caused_reboot()) {
     printf("Reboot caused by Watchdog\n\n");
     // 3 quick blinks ~1s total
@@ -37,7 +39,7 @@ int main() {
 
   } else {
     printf("First boot\n");
-    sleep_ms(10000);  // wait 10s
+    sleep_ms(2000);  // wait 2s
   }
 
   printf("Starting Test\n\n");
@@ -65,3 +67,4 @@ int main() {
 
   return 0;
 }
+// reboot expected after iteration 42

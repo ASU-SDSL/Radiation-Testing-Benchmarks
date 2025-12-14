@@ -67,4 +67,4 @@ int main() {
 
   return 0;
 }
-// reboot expected after iteration 42
+// reboot expected after iteration 42 for pico 2s and 25 for pico 1s

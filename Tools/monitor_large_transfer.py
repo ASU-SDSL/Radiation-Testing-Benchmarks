@@ -58,10 +58,11 @@ while 1:
             data = ser.read(64).decode(encoding="utf-8", errors="replace")
             bytes_received += 64  # mark reception
 
-            if datetime.now() - last_time > timedelta(
+            if (datetime.now() - last_time) > timedelta(
                 seconds=METADATA_MARK_TIME_PERIOD_S
             ):
                 fm.write(f"{datetime.now()}, {bytes_received}\n")
+                last_time = datetime.now()
 
             # save
             print(data, end="")

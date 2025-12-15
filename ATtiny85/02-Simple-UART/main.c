@@ -17,9 +17,13 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
+#include "../Common/timing.h"
 #include "../Common/usi_uart.h"
 
 int main() {
+  // timing and uart init
+  init_timing();
+
   // set PB4 to output low
   DDRB |= _BV(DDB4);
   PORTB &= ~_BV(PB4);

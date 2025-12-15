@@ -18,16 +18,26 @@
 #include <avr/wdt.h>
 #include <util/delay.h>
 
+#include "../Common/timing.h"
 #include "../Common/usi_uart.h"
 
 int main() {
+  uint8_t mcusr_copy = MCUSR;
+  MCUSR = 0;  // clear all reset flags
+  wdt_disable();
+
+  // timing and uart init
+  init_timing();
+
   // set PB4 to output low
   DDRB |= _BV(DDB4);
   PORTB &= ~_BV(PB4);
   PINB |= _BV(PB4);  // toggle
 
+  _delay_ms(1000);
+
   // check if we were reset by the watchdog
-  if (MCUSR & _BV(WDRF)) {
+  if (mcusr_copy & _BV(WDRF)) {
     usiserial_printf("Watchdog Reset Detected\n");
   }
 
@@ -39,19 +49,19 @@ int main() {
   int it = 0;
   // read and report every 1s
   while (1) {
-    usiserial_printf("Iteration: %d\n", it);
-
-    if (it < 6) {
+    if (it < 10) {
       wdt_reset();
     }
+    usiserial_printf("Iteration: %d\n", it);
 
-    if (it == 6) {
+    if (it == 10) {
+      wdt_reset();
       usiserial_printf("Freezing watchdog\n");
     }
 
     PINB |= _BV(PB4);  // toggle led
     it++;
-    _delay_ms(1000);
+    _delay_ms(500);
   }
 
   return 0;

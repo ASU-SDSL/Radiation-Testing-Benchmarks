@@ -33,6 +33,9 @@
 #define SRAM_TO_USE_B 90
 
 int main() {
+  MCUSR = 0;  // clear all reset flags
+  wdt_disable();
+
   // initialize timing and uart
   init_timing();
 
@@ -55,6 +58,7 @@ int main() {
   // read and report every 1s
   while (1) {
     uint32_t timestamp = secs();
+    wdt_reset();
     usiserial_printf("\nReading at %lu:\n", timestamp);
 
     for (size_t i = 0; i < SRAM_TO_USE_B; i++) {
@@ -63,6 +67,7 @@ int main() {
     }
 
     usiserial_printf("\nDone (started: %lu).", timestamp);
+    wdt_reset();
     _delay_ms(1000);
     PINB |= _BV(PB4);  // toggle
   }

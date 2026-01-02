@@ -1,2 +1,0 @@
-Notes Run# Rate rad(Si)/s Dose rad(Si) Duration Time Measure Dose rad(Si) (+3%) Cummulative Dose rad(Si) Time on (seconds)
-1 142 100,000 0:12:06 103,092 206,292 1648 726 SN 1, 2 and SN 5, 6 
